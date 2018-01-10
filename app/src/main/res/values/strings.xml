@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SubBook</string>
+    <string name="add_subscription">Add</string>
+    <string name="remove_subscription">Remove</string>
+    <string name="set_name">Name:</string>
+    <string name="set_date">Date:</string>
+    <string name="set_price">Price:</string>
+    <string name="set_comment">Comment:</string>
+</resources>
