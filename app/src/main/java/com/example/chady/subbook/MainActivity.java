@@ -15,7 +15,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 //This class handles adding/removing new subscriptions,
 //as well as directing the user to the specific subscription interface
@@ -31,11 +30,15 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> subs = new ArrayList<>();
     private ListView listView;
     private ArrayAdapter adapter;
+    private ArrayList<Subscriptions> subscriptions = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //retrieves the subscriptions
+        //loadSubArray();
+        //fillArray();
         updatePrice();
         listView = (ListView) findViewById(R.id.subs);
         adapter = new ArrayAdapter<String>(this,
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     removeConfirm(null);
                 }else{
                     //passes the name variable as an extra intent
+                    //saveSubArray();
                     name = subs.get(position);
                     Intent newSub = new Intent(MainActivity.this, NewSubActivity.class); //goes to the new activity if not
                     newSub.putExtra("NAME", name);
@@ -58,7 +62,18 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    public void loadSubArray(){
+        //load sub array from text file
+    }
+
+    public void saveSubArray(){
+        //save sub array to text file
+    }
+
+    public void fillArray(){
+        //load each subscription name into the name array
     }
 
     //updates the price when a new sub price changed
@@ -121,6 +136,9 @@ public class MainActivity extends AppCompatActivity {
                     //****ADD A NEW ROW TO THE TABLE WITH THIS NAME****
                     subs.add(name);
                     i++;
+                    Subscriptions sub = new Subscriptions(name);
+                    sub.setName(name);
+                    subscriptions.add(sub);
                     adapter.notifyDataSetChanged();
                 }
             }

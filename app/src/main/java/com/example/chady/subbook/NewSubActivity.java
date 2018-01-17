@@ -2,36 +2,34 @@ package com.example.chady.subbook;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.util.ArrayList;
+
 
 //This class will handle loading and user interaction with a specific subscription selected by the user
 public class NewSubActivity extends AppCompatActivity {
-    String name;
-    float price=0;
-    String date="";
-    String comment="";
-    int ID;
+    public String name;
+    public float price=0;
+    public String date="";
+    public String comment="";
+    public int ID;
+    private ArrayList<Subscriptions> subscriptions = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_sub);
         //retrieves the extra intent name variable
+        loadSubArray();
         name = getIntent().getStringExtra("NAME");
         ID = getIntent().getIntExtra("ID", 0);
         EditText subName = (EditText)findViewById(R.id.name);
@@ -44,45 +42,20 @@ public class NewSubActivity extends AppCompatActivity {
         subName.addTextChangedListener(new GenericTextWatcher(subName));
         price.addTextChangedListener(new GenericTextWatcher(price));
         comment.addTextChangedListener(new GenericTextWatcher(comment));
-
-
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void loadSubArray(){
+        //Do stuff(make sure to get the specific sub from the ID passed)
+    }
+
+    public void saveSubArray(){
+
+    }
+    //@RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void done(View view){
+        saveSubArray();
         Intent newSub = new Intent(NewSubActivity.this, MainActivity.class);
-        insert();
         startActivity(newSub);
-    }
-
-    //Method to connect to the SQLite database
-    private Connection connect(){
-        String url = "/com/example/chady/subbook/subs.db";
-
-        Connection conn = null;
-        try{
-            conn = DriverManager.getConnection(url);
-        } catch(SQLException e){
-            System.out.println(e.getMessage());
-        }
-        return conn;
-    }
-
-    //method to insert new row into SQLite database
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void insert() {
-        String sql = "INSERT INTO subs(id,name,price,dateSet,comment) VALUES(?,?,?,?,?)";
-        try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1,ID);
-            pstmt.setString(2, name);
-            pstmt.setFloat(3, price);
-            pstmt.setString(4, date);
-            pstmt.setString(5, comment);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     //display the error message if the date is entered incorrectly
@@ -113,7 +86,6 @@ public class NewSubActivity extends AppCompatActivity {
             this.view = view;
         }
 
-        //EditText name = (EditText) findViewById(R.id.name);
         public void afterTextChanged(Editable s) {
         }
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -138,12 +110,16 @@ public class NewSubActivity extends AppCompatActivity {
                         return;
                 }
                 date = s.toString();
+                //update date
             } else if (view.getId() == R.id.name) { //checks for name changes
                 name = s.toString();
+                //update name
             } else if (view.getId() == R.id.editText5){ //checks for changes to price
                 price = Float.valueOf(s.toString());
+                //update price
             } else if (view.getId() == R.id.editText4){ //checks for changes to comments
                 comment=s.toString();
+                //update comment
             }
         }
     };
