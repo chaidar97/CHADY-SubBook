@@ -49,7 +49,7 @@ public class ObjectHandler extends Activity {
                 BufferedReader bufferedReader = new BufferedReader(reader);
                 String line = "";
                 while ((line = bufferedReader.readLine()) != null) {
-                    String values[] = line.split(",");
+                    String values[] = line.split("%t%");
                     Subscriptions s = new Subscriptions(values[1]);
                     s.setID(Integer.parseInt(values[0]));
                     s.setDate(values[2]);
@@ -72,7 +72,7 @@ public class ObjectHandler extends Activity {
         try {
             OutputStreamWriter output = new OutputStreamWriter(context.openFileOutput("data.txt", Context.MODE_PRIVATE));
             for(Subscriptions s : subs){
-                String line = Integer.toString(s.getID()) + "," + s.getName() + "," + s.getDate() + "," + Double.toString(s.getPrice()) + "," +  s.getComment() + ",\n";
+                String line = Integer.toString(s.getID()) + "%t%" + s.getName() + "%t%" + s.getDate() + "%t%" + Double.toString(s.getPrice()) + "%t%" +  s.getComment() + "%t%\n";
                 output.write(line);
             }
             output.close();

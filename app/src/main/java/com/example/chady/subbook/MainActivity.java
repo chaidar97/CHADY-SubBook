@@ -3,7 +3,6 @@ package com.example.chady.subbook;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 //This class handles adding/removing new subscriptions,
@@ -47,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         //subHandler.saveSubArray(subscriptions);
         fillArray();
         updatePrice();
+        getMaxID();
         listView = (ListView) findViewById(R.id.subs);
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, subs);
@@ -62,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                     //passes the name variable as an extra intent
                     subHandler.saveSubArray(subscriptions);
                     Subscriptions subTemp = subscriptions.get(pos);
-                    Log.i("TESTER", Integer.toString(subTemp.getID()));
+                    Log.i("TESTER", "ID:" + Integer.toString(subTemp.getID()) + "POS:" + Integer.toString(pos));
                     Intent newSub = new Intent(MainActivity.this, NewSubActivity.class); //goes to the new activity if not
                     newSub.putExtra("NAME", subTemp.getName());
                     newSub.putExtra("ID", subTemp.getID());
@@ -77,6 +76,16 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         subHandler.saveSubArray(subscriptions);
     }
+
+    //finds the highest ID upon creation
+    public void getMaxID(){
+        for(Subscriptions s : subscriptions){
+            if(s.getID() > ID){
+                ID = s.getID();
+            }
+        }
+    }
+
 
     //load each subscription name into the name array
     public void fillArray(){
@@ -148,9 +157,8 @@ public class MainActivity extends AppCompatActivity {
                 name = input.getText().toString();
                 //if the name is less than 20 chars, add it to the sub list
                 if(name.length()<20) {
-                    //****ADD A NEW ROW TO THE TABLE WITH THIS NAME****
                     subs.add(name);
-                    ID++;
+                    ID += 1;
                     Subscriptions sub = new Subscriptions(name);
                     sub.setName(name);
                     sub.setID(ID);
@@ -179,6 +187,8 @@ public class MainActivity extends AppCompatActivity {
             //Delete sub if user clicks yes
             public void onClick(DialogInterface dialog, int which) {
                 //****DELETE ROW FOR THIS SUB*****
+                subscriptions.remove(position);
+                updatePrice();
                 adapter.remove(adapter.getItem(position));
                 adapter.notifyDataSetChanged();
                 confirm=false;

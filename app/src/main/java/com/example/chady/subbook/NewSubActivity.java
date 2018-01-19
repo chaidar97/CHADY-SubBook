@@ -44,10 +44,9 @@ public class NewSubActivity extends AppCompatActivity {
         EditText subName = (EditText)findViewById(R.id.name);
         subName.setText(name, TextView.BufferType.EDITABLE);
         EditText date = (EditText) findViewById(R.id.editText2);
-        date.setText(currentSub.getDate());
+        if(!currentSub.getDate().isEmpty()) date.setText(currentSub.getDate());
         EditText price = (EditText) findViewById(R.id.editText5);
-        //Float p = (float) currentSub.getPrice();
-        price.setText(Double.toString(currentSub.getPrice()));
+        if(currentSub.getPrice() != 0.0) price.setText(Double.toString(currentSub.getPrice()));
         EditText comment = (EditText) findViewById(R.id.editText4);
         comment.setText(currentSub.getComment());
         //add all the editTexts to the listener to detect changes
