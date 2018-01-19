@@ -1,16 +1,21 @@
 package com.example.chady.subbook;
 
+
+import java.io.Serializable;
+
 /**
  * Created by Chady on 2018-01-17.
  */
 
 //Class that handles storage of variables for a specific subscription
-public class Subscriptions {
+public class Subscriptions implements Serializable {
+    private static final long serialVersionUID = 1L;
     String name;
-    String comment;
-    String date;
-    Float price;
+    String comment=" ";
+    String date=" ";
+    double price=0.0;
     int ID;
+
     public Subscriptions(String subName){
         this.name = subName;
     }
@@ -19,7 +24,7 @@ public class Subscriptions {
         this.ID = ID;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -37,13 +42,11 @@ public class Subscriptions {
 
     public int getID() { return ID; }
 
-    public Float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public String getComment() {
-        return comment;
-    }
+    public String getComment() { return comment;}
 
     public String getDate() {
         return date;

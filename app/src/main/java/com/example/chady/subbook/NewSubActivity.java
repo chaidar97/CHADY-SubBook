@@ -1,27 +1,34 @@
 package com.example.chady.subbook;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
 //This class will handle loading and user interaction with a specific subscription selected by the user
 public class NewSubActivity extends AppCompatActivity {
     public String name;
-    public float price=0;
-    public String date="";
-    public String comment="";
+    public double price=0;
+    public String date=" ";
+    public String comment=" ";
+    Subscriptions currentSub;
+    ObjectHandler subHandler = new ObjectHandler(this);
     public int ID;
     private ArrayList<Subscriptions> subscriptions = new ArrayList<>();
+
 
 
     @Override
@@ -29,14 +36,20 @@ public class NewSubActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_sub);
         //retrieves the extra intent name variable
-        loadSubArray();
-        name = getIntent().getStringExtra("NAME");
         ID = getIntent().getIntExtra("ID", 0);
+        name = getIntent().getStringExtra("NAME");
+        Log.i("TESTER", Integer.toString(ID));
+        subscriptions = subHandler.loadSubArray();
+        findSub();
         EditText subName = (EditText)findViewById(R.id.name);
         subName.setText(name, TextView.BufferType.EDITABLE);
         EditText date = (EditText) findViewById(R.id.editText2);
+        date.setText(currentSub.getDate());
         EditText price = (EditText) findViewById(R.id.editText5);
+        //Float p = (float) currentSub.getPrice();
+        price.setText(Double.toString(currentSub.getPrice()));
         EditText comment = (EditText) findViewById(R.id.editText4);
+        comment.setText(currentSub.getComment());
         //add all the editTexts to the listener to detect changes
         date.addTextChangedListener(new GenericTextWatcher(date));
         subName.addTextChangedListener(new GenericTextWatcher(subName));
@@ -44,16 +57,25 @@ public class NewSubActivity extends AppCompatActivity {
         comment.addTextChangedListener(new GenericTextWatcher(comment));
     }
 
-    public void loadSubArray(){
-        //Do stuff(make sure to get the specific sub from the ID passed)
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        subHandler.saveSubArray(subscriptions);
     }
 
-    public void saveSubArray(){
-
+    public void findSub(){
+        for(Subscriptions s : subscriptions){
+            if(s.getID() == ID){
+                currentSub = s;
+                break;
+            }
+        }
     }
-    //@RequiresApi(api = Build.VERSION_CODES.KITKAT)
+
+
     public void done(View view){
-        saveSubArray();
+        subHandler.saveSubArray(subscriptions);
         Intent newSub = new Intent(NewSubActivity.this, MainActivity.class);
         startActivity(newSub);
     }
@@ -111,15 +133,23 @@ public class NewSubActivity extends AppCompatActivity {
                 }
                 date = s.toString();
                 //update date
+                currentSub.setDate(date);
             } else if (view.getId() == R.id.name) { //checks for name changes
                 name = s.toString();
                 //update name
+                currentSub.setName(name);
             } else if (view.getId() == R.id.editText5){ //checks for changes to price
-                price = Float.valueOf(s.toString());
+                if(!s.toString().isEmpty()) {
+                    price = Double.parseDouble(s.toString());
+                } else {
+                    price = 0;
+                }
                 //update price
+                currentSub.setPrice(price);
             } else if (view.getId() == R.id.editText4){ //checks for changes to comments
                 comment=s.toString();
                 //update comment
+                currentSub.setComment(comment);
             }
         }
     };

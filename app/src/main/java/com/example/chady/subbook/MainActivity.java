@@ -3,10 +3,12 @@ package com.example.chady.subbook;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +17,9 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 //This class handles adding/removing new subscriptions,
 //as well as directing the user to the specific subscription interface
@@ -22,9 +27,10 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     //initialise variables used
     int position;
-    int i=0;
+    int ID=0;
     int deleteMode=0;
     int boxChecked=0;
+    ObjectHandler subHandler = new ObjectHandler(this);
     boolean confirm=false;
     private String name = "";
     ArrayList<String> subs = new ArrayList<>();
@@ -36,9 +42,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //retrieves the subscriptions
-        //loadSubArray();
-        //fillArray();
+        //loads the subscriptions
+        subscriptions = subHandler.loadSubArray();
+        //subHandler.saveSubArray(subscriptions);
+        fillArray();
         updatePrice();
         listView = (ListView) findViewById(R.id.subs);
         adapter = new ArrayAdapter<String>(this,
@@ -53,33 +60,41 @@ public class MainActivity extends AppCompatActivity {
                     removeConfirm(null);
                 }else{
                     //passes the name variable as an extra intent
-                    //saveSubArray();
-                    name = subs.get(position);
+                    subHandler.saveSubArray(subscriptions);
+                    Subscriptions subTemp = subscriptions.get(pos);
+                    Log.i("TESTER", Integer.toString(subTemp.getID()));
                     Intent newSub = new Intent(MainActivity.this, NewSubActivity.class); //goes to the new activity if not
-                    newSub.putExtra("NAME", name);
-                    newSub.putExtra("ID", position);
+                    newSub.putExtra("NAME", subTemp.getName());
+                    newSub.putExtra("ID", subTemp.getID());
                     startActivity(newSub);
                 }
             }
         });
     }
 
-    public void loadSubArray(){
-        //load sub array from text file
+    @Override
+    public void onStop() {
+        super.onStop();
+        subHandler.saveSubArray(subscriptions);
     }
 
-    public void saveSubArray(){
-        //save sub array to text file
-    }
-
+    //load each subscription name into the name array
     public void fillArray(){
-        //load each subscription name into the name array
+        subs.clear(); //empty array
+        for(Subscriptions s : subscriptions){
+            subs.add(s.getName());
+        }
     }
 
     //updates the price when a new sub price changed
     public void updatePrice(){
+        double totalPrice=0.0;
         final TextView total = (TextView) findViewById(R.id.total);
-        total.setText("100$");
+        for(Subscriptions s : subscriptions){
+            totalPrice+=s.getPrice();
+        }
+        DecimalFormat df = new DecimalFormat("#.##");
+        total.setText("$" + df.format(totalPrice));
         //****use database to update total price***
     }
 
@@ -135,9 +150,10 @@ public class MainActivity extends AppCompatActivity {
                 if(name.length()<20) {
                     //****ADD A NEW ROW TO THE TABLE WITH THIS NAME****
                     subs.add(name);
-                    i++;
+                    ID++;
                     Subscriptions sub = new Subscriptions(name);
                     sub.setName(name);
+                    sub.setID(ID);
                     subscriptions.add(sub);
                     adapter.notifyDataSetChanged();
                 }
