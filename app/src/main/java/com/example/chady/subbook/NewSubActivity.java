@@ -44,7 +44,7 @@ public class NewSubActivity extends AppCompatActivity {
         EditText subName = (EditText)findViewById(R.id.name);
         subName.setText(name, TextView.BufferType.EDITABLE);
         EditText date = (EditText) findViewById(R.id.editText2);
-        if(!currentSub.getDate().isEmpty()) date.setText(currentSub.getDate());
+        if(!(currentSub.getDate().equals("INITIAL"))) date.setText(currentSub.getDate());
         EditText price = (EditText) findViewById(R.id.editText5);
         if(currentSub.getPrice() != 0.0) price.setText(Double.toString(currentSub.getPrice()));
         EditText comment = (EditText) findViewById(R.id.editText4);
@@ -114,7 +114,10 @@ public class NewSubActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (view.getId() == R.id.editText2) {
                 //returns if length is 0 to avoid issues
-                if (s.length() == 0) return;
+                if (s.length() == 0){
+                    currentSub.setDate("INITIAL");
+                    return;
+                }
                 String r = s.toString();
                 //checks if any parts of the string are alphanumeric(forbidden)
                 if (0 < r.length()) {
@@ -132,6 +135,7 @@ public class NewSubActivity extends AppCompatActivity {
                 }
                 date = s.toString();
                 //update date
+                Log.i("DATETEST", date);
                 currentSub.setDate(date);
             } else if (view.getId() == R.id.name) { //checks for name changes
                 name = s.toString();

@@ -12,7 +12,7 @@ public class Subscriptions implements Serializable {
     private static final long serialVersionUID = 1L;
     String name;
     String comment=" ";
-    String date=" ";
+    String date="INITIAL";
     double price=0.0;
     int ID;
 
