@@ -5,11 +5,15 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.chady.subbook.Subscriptions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.lang3.SerializationUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -26,6 +30,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
@@ -33,55 +38,46 @@ import java.util.ArrayList;
  */
 
 public class ObjectHandler extends Activity {
+    private static final String FILENAME = "file.sav";
     public ArrayList<Subscriptions> subList = new ArrayList<Subscriptions>();
     public Context context;
 
-    public ObjectHandler(Context context){
+
+    public ObjectHandler(Context context) {
         this.context = context;
     }
 
+    //Saves the sub array
+    public void saveSubArray(ArrayList<Subscriptions> subs) {
+        try {
+            FileOutputStream fos = context.openFileOutput(FILENAME,
+                    Context.MODE_PRIVATE);
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            Gson gson = new Gson();
+            gson.toJson(subs, out);
+            out.flush();
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException();
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    }
+
+
+    // Loads the sub array and returns it
     public ArrayList<Subscriptions> loadSubArray() {
         try {
-            InputStream input = context.openFileInput("data.txt");
-
-            if (input != null) {
-                InputStreamReader reader = new InputStreamReader(input);
-                BufferedReader bufferedReader = new BufferedReader(reader);
-                String line = "";
-                while ((line = bufferedReader.readLine()) != null) {
-                    String values[] = line.split("%t%");
-                    Subscriptions s = new Subscriptions(values[1]);
-                    s.setID(Integer.parseInt(values[0]));
-                    s.setDate(values[2]);
-                    s.setPrice(Double.parseDouble(values[3]));
-                    s.setComment(values[4]);
-                    subList.add(s);
-                }
-                input.close();
-            }
-        }
-        catch (FileNotFoundException e) {
-            Log.i("FNFERROR", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.i("IOERROR", "Can not read file: " + e.toString());
+            FileInputStream fis = context.openFileInput(FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            Gson gson = new Gson();
+            Type listType = new TypeToken<ArrayList<Subscriptions>>() {
+            }.getType();
+            subList = gson.fromJson(in, listType);
+        } catch (FileNotFoundException e) {
+            subList = new ArrayList<Subscriptions>();
         }
         return subList;
     }
 
-    public void saveSubArray(ArrayList<Subscriptions> subs) {
-        try {
-            OutputStreamWriter output = new OutputStreamWriter(context.openFileOutput("data.txt", Context.MODE_PRIVATE));
-            for(Subscriptions s : subs){
-                String line = Integer.toString(s.getID()) + "%t%" + s.getName() + "%t%" + s.getDate() + "%t%" + Double.toString(s.getPrice()) + "%t%" +  s.getComment() + "%t%\n";
-                output.write(line);
-            }
-            output.close();
-        }
-        catch (IOException e) {
-            Log.e("ExceptionWRITE", "File write failed: " + e.toString());
-        }
-    }
 }
-
-
-

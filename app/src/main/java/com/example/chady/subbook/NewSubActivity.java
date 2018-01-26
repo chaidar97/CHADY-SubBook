@@ -3,6 +3,7 @@ package com.example.chady.subbook;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -35,20 +36,29 @@ public class NewSubActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_sub);
+        getWindow().getDecorView().setBackgroundColor(Color.DKGRAY); //set background color
         //retrieves the extra intent name variable
         ID = getIntent().getIntExtra("ID", 0);
         name = getIntent().getStringExtra("NAME");
         Log.i("TESTER", Integer.toString(ID));
         subscriptions = subHandler.loadSubArray();
         findSub();
+        initialize();
+    }
+
+
+    //this method will insert all the info into the boxes if they have been specified
+    public void initialize(){
+        //Next lines don't insert the values if they're the initial ones
         EditText subName = (EditText)findViewById(R.id.name);
         subName.setText(name, TextView.BufferType.EDITABLE);
+        if(!(currentSub.getName().equals(" "))) subName.setText(currentSub.getName());
         EditText date = (EditText) findViewById(R.id.editText2);
         if(!(currentSub.getDate().equals("INITIAL"))) date.setText(currentSub.getDate());
         EditText price = (EditText) findViewById(R.id.editText5);
         if(currentSub.getPrice() != 0.0) price.setText(Double.toString(currentSub.getPrice()));
         EditText comment = (EditText) findViewById(R.id.editText4);
-        comment.setText(currentSub.getComment());
+        if(!(currentSub.getComment().equals(" "))) comment.setText(currentSub.getComment());
         //add all the editTexts to the listener to detect changes
         date.addTextChangedListener(new GenericTextWatcher(date));
         subName.addTextChangedListener(new GenericTextWatcher(subName));
@@ -56,13 +66,14 @@ public class NewSubActivity extends AppCompatActivity {
         comment.addTextChangedListener(new GenericTextWatcher(comment));
     }
 
-
+    //Saves the changes when the activity is stopped
     @Override
     public void onStop() {
         super.onStop();
         subHandler.saveSubArray(subscriptions);
     }
 
+    //method to find which sub we're currently viewing
     public void findSub(){
         for(Subscriptions s : subscriptions){
             if(s.getID() == ID){
@@ -72,9 +83,11 @@ public class NewSubActivity extends AppCompatActivity {
         }
     }
 
-
+    //When the user presses the Done button
     public void done(View view){
+        //save the subscriptions
         subHandler.saveSubArray(subscriptions);
+        //go to the previous activity
         Intent newSub = new Intent(NewSubActivity.this, MainActivity.class);
         startActivity(newSub);
     }
@@ -140,6 +153,7 @@ public class NewSubActivity extends AppCompatActivity {
             } else if (view.getId() == R.id.name) { //checks for name changes
                 name = s.toString();
                 //update name
+                name = (name.isEmpty()) ? " " : name;
                 currentSub.setName(name);
             } else if (view.getId() == R.id.editText5){ //checks for changes to price
                 if(!s.toString().isEmpty()) {
@@ -152,6 +166,7 @@ public class NewSubActivity extends AppCompatActivity {
             } else if (view.getId() == R.id.editText4){ //checks for changes to comments
                 comment=s.toString();
                 //update comment
+                comment = (comment.isEmpty()) ? " " : comment;
                 currentSub.setComment(comment);
             }
         }

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().getDecorView().setBackgroundColor(Color.DKGRAY); //set background color
         //loads the subscriptions
         subscriptions = subHandler.loadSubArray();
         //subHandler.saveSubArray(subscriptions);
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         getMaxID();
         listView = (ListView) findViewById(R.id.subs);
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, subs);
+                R.layout.layout_white_text, R.id.list_content, subs);
         listView.setAdapter(adapter);
         //Handles when a listview button is clicked
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -85,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 
     //load each subscription name into the name array
     public void fillArray(){
@@ -210,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
             listView.setBackgroundColor(Color.parseColor("#FF0000"));
             deleteMode=1;
         } else{
-            listView.setBackgroundColor(Color.parseColor("#FAFAFA"));
+            listView.setBackgroundColor(Color.parseColor("#444444"));
             deleteMode=0;
         }
         adapter.notifyDataSetChanged();

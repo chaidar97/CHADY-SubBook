@@ -7,30 +7,37 @@
     tools:context="com.example.chady.subbook.MainActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/addButton"
         android:layout_width="125dp"
         android:layout_height="59dp"
+        android:background="@drawable/button_border"
         android:hint="@string/add_subscription"
         android:onClick="addSub"
-        tools:layout_editor_absoluteX="5dp"
-        tools:layout_editor_absoluteY="-2dp" />
+        android:text="Add"
+        android:textAllCaps="false"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/removeButton"
         android:layout_width="127dp"
         android:layout_height="58dp"
+        android:background="@drawable/button_border"
         android:hint="@string/remove_subscription"
         android:onClick="removeSub"
+        android:text="Remove"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp"
+        android:textAllCaps="false"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteX="257dp"
-        tools:layout_editor_absoluteY="-2dp" />
+        app:layout_constraintRight_toRightOf="parent" />
 
     <ListView
         android:id="@+id/subs"
         android:layout_width="370dp"
         android:layout_height="424dp"
+        android:background="@color/backgroundColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -44,7 +51,7 @@
         android:layout_marginTop="-2dp"
         android:gravity="center"
         android:text="Total: test"
-        android:textColor="@android:color/holo_green_dark"
+        android:textColor="@android:color/holo_green_light"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
