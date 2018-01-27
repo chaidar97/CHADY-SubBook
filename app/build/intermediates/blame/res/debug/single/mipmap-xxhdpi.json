@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/user/Desktop/Skool/cmput301/SubBook/app/build/intermediates/res/merged/debug/mipmap-xxhdpi/ic_launcher.png",
+        "source": "/Users/user/Desktop/Skool/cmput301/SubBook/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/user/Desktop/Skool/cmput301/SubBook/app/build/intermediates/res/merged/debug/mipmap-xxhdpi/ic_launcher_round.png",
+        "source": "/Users/user/Desktop/Skool/cmput301/SubBook/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png"
+    }
+]

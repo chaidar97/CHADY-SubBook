@@ -1,0 +1,7 @@
+#Wed Jan 17 11:14:45 MST 2018
+base.0=/Users/user/Desktop/Skool/cmput301/SubBook/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_803ec8bedf01f301ce2b067581b68f1afcaad6dc
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=/Users/user/Desktop/Skool/cmput301/SubBook/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_926fc93d0fea69f574911882d301777bedcca339/classes.dex
+base.1=/Users/user/Desktop/Skool/cmput301/SubBook/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_926fc93d0fea69f574911882d301777bedcca339
+file.0=/Users/user/Desktop/Skool/cmput301/SubBook/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_803ec8bedf01f301ce2b067581b68f1afcaad6dc/classes.dex
