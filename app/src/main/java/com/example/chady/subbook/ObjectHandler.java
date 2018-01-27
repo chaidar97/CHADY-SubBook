@@ -49,6 +49,7 @@ public class ObjectHandler extends Activity {
 
     //Saves the sub array
     public void saveSubArray(ArrayList<Subscriptions> subs) {
+        // Taken from Lab 3 Cmput 301
         try {
             FileOutputStream fos = context.openFileOutput(FILENAME,
                     Context.MODE_PRIVATE);
@@ -67,6 +68,7 @@ public class ObjectHandler extends Activity {
 
     // Loads the sub array and returns it
     public ArrayList<Subscriptions> loadSubArray() {
+        // Taken from Lab 3 Cmput 301
         try {
             FileInputStream fis = context.openFileInput(FILENAME);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));

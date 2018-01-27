@@ -112,6 +112,8 @@ public class NewSubActivity extends AppCompatActivity {
         date.setText("");
     }
 
+
+    // Textwatcher code taken from https://stackoverflow.com/questions/8543449/how-to-use-the-textwatcher-class-in-android
     //Textwatcher inner class to watch over text boxes
     private class GenericTextWatcher implements TextWatcher{
 
