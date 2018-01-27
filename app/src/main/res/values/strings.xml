@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SubBook</string>
+    <string name="app_name">Chady-SubBook</string>
     <string name="add_subscription">Add</string>
     <string name="remove_subscription">Remove</string>
     <string name="set_name">Name:</string>
