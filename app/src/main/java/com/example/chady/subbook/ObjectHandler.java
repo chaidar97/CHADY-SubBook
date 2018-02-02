@@ -37,17 +37,31 @@ import java.util.ArrayList;
  * Created by Chady on 2018-01-18.
  */
 
+/**
+ * CLass that handles saving and loading subscription objects
+ * @see Activity
+ * @see Subscriptions
+ */
 public class ObjectHandler extends Activity {
     private static final String FILENAME = "file.sav";
     public ArrayList<Subscriptions> subList = new ArrayList<Subscriptions>();
     public Context context;
 
 
+    /**
+     * Constructor which takes context as a parameter
+     * @param context
+     */
     public ObjectHandler(Context context) {
         this.context = context;
     }
 
-    //Saves the sub array
+    /**
+     * Saves the subscription array
+     * @param subs
+     * @throws RuntimeException
+     * @throws IOException
+     */
     public void saveSubArray(ArrayList<Subscriptions> subs) {
         // Taken from Lab 3 Cmput 301
         try {
@@ -65,8 +79,10 @@ public class ObjectHandler extends Activity {
         }
     }
 
-
-    // Loads the sub array and returns it
+    /**
+     * Loads the sub array and returns it
+     * @return returns the Subscription Array
+     */
     public ArrayList<Subscriptions> loadSubArray() {
         // Taken from Lab 3 Cmput 301
         try {

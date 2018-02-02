@@ -20,9 +20,14 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-//This class handles adding/removing new subscriptions,
-//as well as directing the user to the specific subscription interface
 
+/**
+ * This class handles adding/removing new subscriptions,
+ * as well as directing the user to the specific subscription interface
+ * @see AppCompatActivity
+ * @see Subscriptions
+ * @see ObjectHandler
+ */
 public class MainActivity extends AppCompatActivity {
     //initialise variables used
     int position;
@@ -37,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter adapter;
     private ArrayList<Subscriptions> subscriptions = new ArrayList<>();
 
+    /**
+     * Initializes the activity by loading the subscriptions and listview
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +63,14 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         //Handles when a listview button is clicked
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            /**
+             * If a subscription is clicked, it will either delete it or
+             *  go to a new activity to see details
+             * @param arg0
+             * @param arg1
+             * @param pos
+             * @param Id
+             */
             public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long Id) {
                 //if the user wants to delete the button, it will call the remove method
                 if(deleteMode==1){
@@ -73,13 +90,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Stops the activity
+     */
     @Override
     public void onStop() {
         super.onStop();
         subHandler.saveSubArray(subscriptions);
     }
 
-    //finds the highest ID upon creation
+    /**
+     * finds the highest ID upon creation
+     */
     public void getMaxID(){
         for(Subscriptions s : subscriptions){
             if(s.getID() > ID){
@@ -88,7 +110,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //load each subscription name into the name array
+    /**
+     * load each subscription name into the name array
+     */
     public void fillArray(){
         subs.clear(); //empty array
         for(Subscriptions s : subscriptions){
@@ -96,7 +120,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //updates the price when a new sub price changed
+    /**
+     * updates the price when a new sub price changed
+     */
     public void updatePrice(){
         double totalPrice=0.0;
         final TextView total = (TextView) findViewById(R.id.total);
@@ -105,10 +131,12 @@ public class MainActivity extends AppCompatActivity {
         }
         DecimalFormat df = new DecimalFormat("#.##");
         total.setText("$" + df.format(totalPrice));
-        //****use database to update total price***
     }
 
-    //prompts the user for sub removal
+    /**
+     * prompts the user for sub removal
+     * @param view
+     */
     public void removalPrompt(View view){
         if(boxChecked == 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -136,7 +164,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //Function that handles interface to type in new sub name, then adds it
+    /**
+     * Function that handles interface to type in new sub name, then adds it
+     * @param view
+     */
     public void addSub(View view){
         //turn off delete mode if it's on when you add a new sub
         if(deleteMode==1){
@@ -177,7 +208,10 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
-    //Function that asks user to confirm a sub deletion
+    /**
+     * Function that asks user to confirm a sub deletion
+     * @param view
+     */
     public void removeConfirm(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Are you sure you wish to delete this subscription?");
@@ -204,7 +238,10 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
-    //method to put the app into removal mode to remove the subscription
+    /**
+     * Method to put the app into removal mode to remove the subscription
+     * @param view
+     */
     public void removeSub(View view){
         if(deleteMode==0) {
             removalPrompt(null);
