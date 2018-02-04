@@ -30,14 +30,14 @@ import java.util.ArrayList;
  */
 public class MainActivity extends AppCompatActivity {
     //initialise variables used
-    int position;
-    int ID=0;
-    int deleteMode=0;
-    int boxChecked=0;
-    ObjectHandler subHandler = new ObjectHandler(this);
-    boolean confirm=false;
+    public int position;
+    public int ID=0;
+    private int deleteMode=0;
+    private int boxChecked=0;
+    private ObjectHandler subHandler = new ObjectHandler(this);
+    public boolean confirm=false;
     private String name = "";
-    ArrayList<String> subs = new ArrayList<>();
+    private ArrayList<String> subs = new ArrayList<>();
     private ListView listView;
     private ArrayAdapter adapter;
     private ArrayList<Subscriptions> subscriptions = new ArrayList<>();

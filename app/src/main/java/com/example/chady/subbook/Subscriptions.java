@@ -12,11 +12,11 @@ import java.io.Serializable;
  * Class that handles storage of variables for a specific subscription
  */
 public class Subscriptions {
-    String name;
-    String comment=" ";
-    String date="INITIAL";
-    double price=0.0;
-    int ID;
+    public String name;
+    public String comment=" ";
+    public String date="INITIAL";
+    public double price=0.0;
+    public int ID;
 
     /**
      * Consrtucts subscription object with sub name as a parameter

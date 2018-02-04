@@ -25,13 +25,13 @@ import java.util.ArrayList;
  * @see Subscriptions
  */
 public class NewSubActivity extends AppCompatActivity {
-    public String name;
+    private String name;
     public double price=0;
-    public String date=" ";
-    public String comment=" ";
-    Subscriptions currentSub;
-    ObjectHandler subHandler = new ObjectHandler(this);
-    public int ID;
+    private String date=" ";
+    private String comment=" ";
+    private Subscriptions currentSub;
+    public ObjectHandler subHandler = new ObjectHandler(this);
+    private int ID;
     private ArrayList<Subscriptions> subscriptions = new ArrayList<>();
 
     /**
