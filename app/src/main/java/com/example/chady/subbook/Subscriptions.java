@@ -1,7 +1,6 @@
 package com.example.chady.subbook;
 
 
-import java.io.Serializable;
 
 /**
  * Created by Chady on 2018-01-17.
